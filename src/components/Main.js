@@ -23,20 +23,66 @@ export default class Main extends Component {
   // Usando class fields
   state = {
     novaTarefa: '',
-    tarefas: [
-      'Fazer Café',
-      'Beber Àgua',
-      'Estudar'
-    ]
+    tarefas: [],
+    inde: -1
   };
 
-  //muda o estado 
+  //muda o estado (evita o evento de recarga da pagina)
   handleChange = (e) =>  {
     // console.log('teste');
     this.setState({
       novaTarefa: e.target.value
     });
     
+  };
+
+  //fução que captura o que vai ser digitado
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { tarefas, index } = this.state;
+    let { novaTarefa } =this.state;
+    novaTarefa = novaTarefa.trim();
+
+    if (tarefas.indexOf(novaTarefa) !== -1 ) return;
+
+    const novasTarevas = [...tarefas];
+
+    if(index === -1) {
+      this.setState({
+        tarefas: [...novasTarevas, novaTarefa],
+        novaTarefa: ''
+      });
+    } else {
+      novasTarevas[index] = novaTarefa;;
+
+      this.setState({
+        tarefas: [...novasTarevas],
+        index: -1
+      });
+    }
+
+   
+
+  };
+
+  handleDelete = (e, index) => {
+    const { tarefas } = this.state;
+    const novasTarevas = [...tarefas];
+    novasTarevas.splice(index, 1);
+
+    this.setState({
+      tarefas: [...novasTarevas]
+    });
+
+  };
+
+  handleEdit = (e, index) => {
+    const { tarefas } = this.state;
+    this.setState({
+      index,
+      novaTarefa: tarefas[index]
+    }); 
+
   };
 
   //metodo que renderiza os elementos HTML
@@ -48,10 +94,9 @@ export default class Main extends Component {
       <div className="main">
         <h1>Lista de Tarefas</h1>
 
-        <form action="#" className="form">
+        <form onSubmit={this.handleSubmit} action="#" className="form">
           <input onChange={this.handleChange} type="text" value={novaTarefa}></input>
           <div className="lista-de-tarefas">
-            {/* {novaTarefa}l */}
           </div>
           <button type="submit">
             <FaPlus/>
@@ -59,13 +104,13 @@ export default class Main extends Component {
         </form>
 
         <ul className="tarefas">
-            {tarefas.map(tarefa => (
+            {tarefas.map((tarefa, index) => (
               <li key={tarefa}>
                 {tarefa}
-                <div>
-                  <FaEdit className="edit"/>
-                  <FaWindowClose className="delete"/>
-                </div>
+                <span>
+                  <FaEdit onClick={ e => this.handleEdit(e, index)} className="edit"/>
+                  <FaWindowClose onClick={ e => this.handleDelete(e, index)} className="delete"/>
+                </span>
               </li>
             ))}
         </ul> 

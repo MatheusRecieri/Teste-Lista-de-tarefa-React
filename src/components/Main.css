@@ -31,7 +31,7 @@
   border: none;
   height: 2.5rem;
   width: 2.5rem;
-  background-color: bisque;
+  background-color: rgb(49, 42, 143);
   color: #fff;
   display: flex;
   justify-content: center;
@@ -40,9 +40,7 @@
 
 .form button[type="submit"]:hover {
   transition: .2s ease-in-out;
-  height: 2.9rem;
-  width: 2.9rem;
-  background-color: rgb(247, 212, 170);
+  background-color: rgb(49, 27, 100);
 }
 
 .tarefas {
@@ -53,13 +51,26 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 1rem;
+}
+
+.tarefas li:hover {
+  transition: .2s ease-in-out;
+  background-color: rgb(156, 164, 209);
 }
 
 .tarefas li .edit {
   margin-right: 1rem;
   color: rgb(83, 83, 243);
+  cursor: pointer;
 }
+
 .tarefas li .delete {
   margin-right: 1rem;
   color: rgb(243, 83, 83);
+}
+
+.tarefas li:hover .edit,
+.tarefas li:hover .delete {
+  color: black;
 }
